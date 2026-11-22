@@ -25,5 +25,11 @@
     {"mulai": "10:15", "selesai": "11:00", "mapel": "PJOK"},
     {"mulai": "11:00", "selesai": "12:30", "mapel": "Administrasi Infrastruktur Jaringan"},
     {"mulai": "13:00", "selesai": "15:40", "mapel": "Administrasi Infrastruktur Jaringan"}
+  ],
+    "Jumat": [
+    {"mulai": "07:00", "selesai": "08:30", "mapel": "Kokurikuler"},
+    {"mulai": "08:30", "selesai": "10:00", "mapel": "Kreativitas, Inovasi dan Kewirausahaan"},
+    {"mulai": "10:15", "selesai": "12:30", "mapel": "Administrasi Sistim Jaringan"},
+    {"mulai": "13:00", "selesai": "15:00", "mapel": "Administrasi Sistim Jaringan"}
   ]
 }
