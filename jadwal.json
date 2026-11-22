@@ -12,5 +12,11 @@
     {"mulai": "10:15", "selesai": "11:00", "mapel": "Sejarah"},
     {"mulai": "11:00", "selesai": "12:30", "mapel": "Pendidikan Pancasila"},
     {"mulai": "13:00", "selesai": "15:00", "mapel": "Kreativitas, Inovasi dan Kewirausahaan"}
+  ],
+    "Rabu": [
+    {"mulai": "07:00", "selesai": "09:15", "mapel": "Matematika"},
+    {"mulai": "09:15", "selesai": "10:00", "mapel": "Teknologi Layanan Jaringan"},
+    {"mulai": "10:15", "selesai": "12:30", "mapel": "Teknologi Layanan Jaringan"},
+    {"mulai": "13:00", "selesai": "14:20", "mapel": "Teknologi Layanan Jaringan"}
   ]
 }
