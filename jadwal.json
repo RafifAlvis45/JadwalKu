@@ -1,6 +1,16 @@
 {
   "Senin": [
     {"mulai": "07:00", "selesai": "07:45", "mapel": "Apel"},
-    {"mulai": "07:45", "selesai": "10:00", "mapel": "Pendidikan Agama"}
+    {"mulai": "07:45", "selesai": "10:00", "mapel": "Pendidikan Agama"},
+    {"mulai": "10:15", "selesai": "11:45", "mapel": "Bimbingan Konseling"},
+    {"mulai": "11:45", "selesai": "12:30", "mapel": "Pemrograman"},
+    {"mulai": "13:00", "selesai": "15:00", "mapel": "Pemrograman"}
+  ],
+  "Selasa": [
+    {"mulai": "07:00", "selesai": "09:15", "mapel": "Bahasa Inggris"},
+    {"mulai": "09:15", "selesai": "10:00", "mapel": "Sejarah"},
+    {"mulai": "10:15", "selesai": "11:00", "mapel": "Sejarah"},
+    {"mulai": "11:00", "selesai": "12:30", "mapel": "Pendidikan Pancasila"},
+    {"mulai": "13:00", "selesai": "15:00", "mapel": "Kreativitas, Inovasi dan Kewirausahaan"}
   ]
 }

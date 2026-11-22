@@ -15,7 +15,7 @@ root.geometry("500x400")
 label = tk.Label(root, font=("Segoe UI", 20))
 label.pack(pady=20)
 
-tabel = ttk.Treeview(root, columns=("Mulai", "Selesai", "Mapel"), show="headings", height=8)
+tabel = ttk.Treeview(root, columns=("mulai", "selesai", "mapel"), show="headings", height=8)
 tabel.heading("mulai", text="Mulai")
 tabel.heading("selesai", text="Selesai")
 tabel.heading("mapel", text="Mata Pelajaran")
