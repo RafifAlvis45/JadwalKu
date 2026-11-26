@@ -10,6 +10,21 @@ HARI = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
 
 with open("jadwal.json", encoding="utf-8") as f:
     jadwal = json.load(f)
+try:
+    with open("config.json", encoding="utf-8") as f:
+        config = json.load(f)
+except FileNotFoundError:
+    config = {}
+
+TOKEN = config.get("token", "")
+CHAT_ID = config.get("chat_id", "")
+
+
+def telegram_siap():
+    return bool(TOKEN and CHAT_ID)
+
+
+print("Telegram siap:", telegram_siap())
 
 root = tk.Tk()
 root.title("JadwalKu")
