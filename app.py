@@ -64,6 +64,15 @@ def isi_tabel():
     for p in pelajaran_hari_ini():
         tabel.insert("", "end", values=(p["mulai"], p["selesai"], p["mapel"]))
 
+def teks_jadwal_hari_ini():
+    nama_hari = HARI[datetime.now().weekday()]
+    pelajaran = pelajaran_hari_ini()
+    if not pelajaran:
+        return f"Jadwal {nama_hari}: tidak ada pelajaran."
+    baris = [f"Jadwal {nama_hari}"]
+    for p in pelajaran:
+        baris.append(f"{p['mulai']} - {p['selesai']}  {p['mapel']}")
+    return "\n".join(baris)
 
 def perbarui_jam():
     sekarang = datetime.now()
