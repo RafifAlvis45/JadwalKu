@@ -3,7 +3,7 @@ import threading
 import urllib.parse
 import urllib.request
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from datetime import datetime
 
 HARI = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
@@ -64,6 +64,7 @@ def isi_tabel():
     for p in pelajaran_hari_ini():
         tabel.insert("", "end", values=(p["mulai"], p["selesai"], p["mapel"]))
 
+
 def teks_jadwal_hari_ini():
     nama_hari = HARI[datetime.now().weekday()]
     pelajaran = pelajaran_hari_ini()
@@ -74,11 +75,23 @@ def teks_jadwal_hari_ini():
         baris.append(f"{p['mulai']} - {p['selesai']}  {p['mapel']}")
     return "\n".join(baris)
 
+
+def kirim_jadwal_manual():
+    if not telegram_siap():
+        messagebox.showwarning("Telegram belum diatur",
+                               "Isi token dan chat_id di config.json dulu.")
+        return
+    kirim_telegram(teks_jadwal_hari_ini())
+    messagebox.showinfo("Telegram", "Jadwal hari ini sedang dikirim ke Telegram.")
+
 def perbarui_jam():
     sekarang = datetime.now()
     nama_hari = HARI [sekarang.weekday()]
     label.config(text=f"{nama_hari}, {sekarang:%H:%M:%S}")
     root.after(1000, perbarui_jam)
+
+tombol = tk.Button(root, text="Kirim Jadwal ke Telegram", command=kirim_jadwal_manual)
+tombol.pack(pady=8)
 
 perbarui_jam()
 isi_tabel()
