@@ -23,6 +23,19 @@ CHAT_ID = config.get("chat_id", "")
 def telegram_siap():
     return bool(TOKEN and CHAT_ID)
 
+def kirim_telegram(teks):
+    if not telegram_siap():
+        return
+
+    def kerja():
+        try:
+            url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+            data = urllib.parse.urlencode({"chat_id": CHAT_ID, "text": teks}).encode()
+            urllib.request.urlopen(url, data=data, timeout=10)
+        except Exception as e:
+            print("Gagal kirim Telegram:", e)
+
+    threading.Thread(target=kerja, daemon=True).start()
 
 print("Telegram siap:", telegram_siap())
 
