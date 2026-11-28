@@ -4,7 +4,7 @@ import urllib.parse
 import urllib.request
 import tkinter as tk
 from tkinter import ttk, messagebox
-from datetime import datetime
+from datetime import datetime, timedelta
 
 HARI = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
 
@@ -19,6 +19,10 @@ except FileNotFoundError:
 TOKEN = config.get("token", "")
 CHAT_ID = config.get("chat_id", "")
 
+MENIT_SEBELUM = config.get("menit_sebelum", 5)
+
+# mencatat pengingat yang sudah terkirim agar tidak dikirim berulang
+sudah_dikirim = set()
 
 def telegram_siap():
     return bool(TOKEN and CHAT_ID)
@@ -84,10 +88,26 @@ def kirim_jadwal_manual():
     kirim_telegram(teks_jadwal_hari_ini())
     messagebox.showinfo("Telegram", "Jadwal hari ini sedang dikirim ke Telegram.")
 
+
+def cek_pengingat(sekarang):
+    for p in pelajaran_hari_ini():
+        jam, menit = map(int, p["mulai"].split(":"))
+        waktu_mulai = sekarang.replace(hour=jam, minute=menit, second=0, microsecond=0)
+        selisih = waktu_mulai - sekarang
+        kunci = (sekarang.date(), p["mulai"], p["mapel"])
+        if timedelta(0) < selisih <= timedelta(minutes=MENIT_SEBELUM) and kunci not in sudah_dikirim:
+            sudah_dikirim.add(kunci)
+            kirim_telegram(
+                f"Pengingat: {p['mapel']} dimulai pukul {p['mulai']} "
+                f"({int(selisih.total_seconds() // 60) + 1} menit lagi)"
+            )
+
+
 def perbarui_jam():
     sekarang = datetime.now()
     nama_hari = HARI [sekarang.weekday()]
     label.config(text=f"{nama_hari}, {sekarang:%H:%M:%S}")
+    cek_pengingat(sekarang)
     root.after(1000, perbarui_jam)
 
 tombol = tk.Button(root, text="Kirim Jadwal ke Telegram", command=kirim_jadwal_manual)
