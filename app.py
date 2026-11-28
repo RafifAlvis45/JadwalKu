@@ -111,12 +111,35 @@ def sorot_pelajaran(sekarang):
         tabel.item(iid, tags=("sekarang",) if aktif else ())
 
 
+def pelajaran_berikutnya(sekarang):
+    for p in pelajaran_hari_ini():
+        jam, menit = map(int, p["mulai"].split(":"))
+        waktu_mulai = sekarang.replace(hour=jam, minute=menit, second=0, microsecond=0)
+        if waktu_mulai > sekarang:
+            return p, waktu_mulai - sekarang
+    return None, None
+
+
+def perbarui_info(sekarang):
+    p, selisih = pelajaran_berikutnya(sekarang)
+    if p is None:
+        info.config(text="Tidak ada pelajaran berikutnya hari ini")
+        return
+    menit = int(selisih.total_seconds() // 60) + 1
+    if menit >= 60:
+        sisa = f"{menit // 60} jam {menit % 60} menit lagi"
+    else:
+        sisa = f"{menit} menit lagi"
+    info.config(text=f"Berikutnya: {p['mapel']} pukul {p['mulai']} ({sisa})")
+
+
 def perbarui_jam():
     sekarang = datetime.now()
     nama_hari = HARI [sekarang.weekday()]
     label.config(text=f"{nama_hari}, {sekarang:%H:%M:%S}")
     cek_pengingat(sekarang)
     sorot_pelajaran(sekarang)
+    perbarui_info(sekarang)
     root.after(1000, perbarui_jam)
 
 tombol = tk.Button(root, text="Kirim Jadwal ke Telegram", command=kirim_jadwal_manual)
@@ -129,6 +152,9 @@ if telegram_siap():
     status.config(text="Telegram aktif")
 else:
     status.config(text="Telegram belum diatur (lihat config.json)")
+
+info = tk.Label(root, font=("Segoe UI", 10))
+info.pack(pady=4)
 
 perbarui_jam()
 isi_tabel()
