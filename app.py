@@ -27,6 +27,14 @@ sudah_dikirim = set()
 def telegram_siap():
     return bool(TOKEN and CHAT_ID)
 
+
+def catat_log(status, teks):
+    waktu = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    ringkas = teks.replace("\n", " | ")
+    with open("riwayat_kirim.log", "a", encoding="utf-8") as f:
+        f.write(f"{waktu} [{status}] {ringkas}\n")
+
+
 def kirim_telegram(teks):
     if not telegram_siap():
         return
@@ -36,7 +44,9 @@ def kirim_telegram(teks):
             url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
             data = urllib.parse.urlencode({"chat_id": CHAT_ID, "text": teks}).encode()
             urllib.request.urlopen(url, data=data, timeout=10)
+            catat_log("BERHASIL", teks)
         except Exception as e:
+            catat_log("GAGAL", teks)
             print("Gagal kirim Telegram:", e)
 
     threading.Thread(target=kerja, daemon=True).start()
