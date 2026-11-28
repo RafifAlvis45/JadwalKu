@@ -93,6 +93,14 @@ def perbarui_jam():
 tombol = tk.Button(root, text="Kirim Jadwal ke Telegram", command=kirim_jadwal_manual)
 tombol.pack(pady=8)
 
+status = tk.Label(root, font=("Segoe UI", 9), fg="gray")
+status.pack()
+
+if telegram_siap():
+    status.config(text="Telegram aktif")
+else:
+    status.config(text="Telegram belum diatur (lihat config.json)")
+
 perbarui_jam()
 isi_tabel()
 root.mainloop()
