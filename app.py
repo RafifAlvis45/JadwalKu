@@ -58,7 +58,7 @@ tabel.column("mulai", width=70)
 tabel.column("selesai", width=70)
 tabel.column("mapel", width=300)
 tabel.pack(padx=14, pady=10)
-
+tabel.tag_configure("sekarang", background="#c8f0c8")
 
 def pelajaran_hari_ini():
     nama_hari = HARI[datetime.now().weekday()]
@@ -103,11 +103,20 @@ def cek_pengingat(sekarang):
             )
 
 
+def sorot_pelajaran(sekarang):
+    jam_sekarang = sekarang.strftime("%H:%M")
+    for iid in tabel.get_children():
+        mulai, selesai, _ = tabel.item(iid, "values")
+        aktif = mulai <= jam_sekarang < selesai
+        tabel.item(iid, tags=("sekarang",) if aktif else ())
+
+
 def perbarui_jam():
     sekarang = datetime.now()
     nama_hari = HARI [sekarang.weekday()]
     label.config(text=f"{nama_hari}, {sekarang:%H:%M:%S}")
     cek_pengingat(sekarang)
+    sorot_pelajaran(sekarang)
     root.after(1000, perbarui_jam)
 
 tombol = tk.Button(root, text="Kirim Jadwal ke Telegram", command=kirim_jadwal_manual)
